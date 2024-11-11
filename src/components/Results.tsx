@@ -78,7 +78,7 @@ export default function Results({ scores }: ResultsProps) {
         case 'extraversion':
           return 'You are outgoing, energetic, and enjoy being the center of attention. Social situations recharge you.';
         case 'agreeableness':
-          return 'You are kind-hearted and empathetic. You value harmony in relationships and strive to understand others\' feelings.';
+          return 'You are kind-hearted and empathetic. You value harmony in relationships and strive to understand others feelings.';
         case 'neuroticism':
           return 'You may experience stress, anxiety, or mood swings more easily. Practicing mindfulness or relaxation techniques might help you find emotional balance.';
       }
@@ -89,7 +89,7 @@ export default function Results({ scores }: ResultsProps) {
         case 'conscientiousness':
           return 'You strike a balance between being organized and adaptable. You complete tasks but allow for flexibility.';
         case 'extraversion':
-          return "You enjoy socializing but also appreciate your downtime. You're flexible in your social engagements.";
+          return 'You enjoy socializing but also appreciate your downtime. Youre flexible in your social engagements.';
         case 'agreeableness':
           return 'You are generally agreeable but can assert yourself when necessary. You balance compassion with personal boundaries.';
         case 'neuroticism':
@@ -104,7 +104,7 @@ export default function Results({ scores }: ResultsProps) {
         case 'extraversion':
           return 'You may feel drained in social settings and prefer spending time alone or in small, close-knit groups.';
         case 'agreeableness':
-          return "You may focus more on your own goals and less on others' needs. You value honesty and assertiveness in relationships.";
+          return 'You may focus more on your own goals and less on others needs. You value honesty and assertiveness in relationships.';
         case 'neuroticism':
           return 'You are emotionally stable, calm under pressure, and tend not to get bogged down by negative emotions. You handle adversity well.';
       }
@@ -129,6 +129,44 @@ export default function Results({ scores }: ResultsProps) {
           <p className="text-gray-600 text-lg">
             Based on the Big Five personality traits model
           </p>
+        </motion.div>
+
+        {/* Bar Graph Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-12 bg-white p-6 rounded-xl shadow-lg"
+        >
+          <h3 className="text-xl font-semibold mb-6 text-gray-800">Personality Traits Overview</h3>
+          <div className="space-y-4">
+            {traits.map((trait, index) => (
+              <motion.div
+                key={trait.name}
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: index * 0.1 }}
+                className="relative"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <trait.icon className={`w-5 h-5 ${trait.color.replace('bg-', 'text-')}`} />
+                    <span className="font-medium text-gray-700">{trait.name}</span>
+                  </div>
+                  <span className={`font-semibold ${trait.color.replace('bg-', 'text-')}`}>
+                    {trait.score}%
+                  </span>
+                </div>
+                <div className="h-4 bg-gray-100 rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${trait.score}%` }}
+                    transition={{ duration: 1, delay: index * 0.1 }}
+                    className={`h-full ${trait.color}`}
+                  />
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
 
         <div className="space-y-6">

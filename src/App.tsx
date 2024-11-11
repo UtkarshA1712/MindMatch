@@ -4,11 +4,13 @@ import { questions } from './data/questions';
 import TestQuestion from './components/TestQuestion';
 import Results from './components/Results';
 import LandingPage from './components/LandingPage';
+import LoadingAnimation from './components/LoadingAnimation';
 
 function App() {
   const [currentQuestion, setCurrentQuestion] = useState(-1); // -1 represents landing page
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [showResults, setShowResults] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [scores, setScores] = useState<Record<string, number>>({});
 
   const startTest = () => {
@@ -20,7 +22,12 @@ function App() {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
     } else {
-      calculateResults();
+      setIsLoading(true);
+      setTimeout(() => {
+        calculateResults();
+        setIsLoading(false);
+        setShowResults(true);
+      }, 5000);
     }
   };
 
@@ -32,7 +39,7 @@ function App() {
       agreeableness: 0,
       neuroticism: 0,
     };
-
+  
     let counts = {
       openness: 0,
       conscientiousness: 0,
@@ -40,7 +47,7 @@ function App() {
       agreeableness: 0,
       neuroticism: 0,
     };
-
+  
     questions.forEach((question, index) => {
       const answer = answers[index];
       if (answer) {
@@ -49,26 +56,28 @@ function App() {
         counts[question.factor]++;
       }
     });
-
+  
     Object.keys(results).forEach((key) => {
       const factor = key as keyof typeof results;
       const calculatedScore = results[factor] / (counts[factor] * 5);
-    // Ensure the score is not negative
-      results[factor] = Math.max(0, Math.round(calculatedScore * 100));
-      
+  
+      // Calculate percentage, double it, and cap it at 100
+      results[factor] = Math.min(93, Math.max(0, Math.round(calculatedScore * 100 * 1.6)));
     });
-
+  
     setScores(results);
-    setShowResults(true);
   };
+  
 
   if (currentQuestion === -1) {
     return <LandingPage onStart={startTest} />;
   }
 
+  if (isLoading) {
+    return <LoadingAnimation />;
+  }
+
   if (showResults) {
-    console.log(scores);
-    console.log(answers); 
     return <Results scores={scores} />;
   }
 
@@ -92,14 +101,14 @@ function App() {
                 Question {currentQuestion + 1} of {questions.length}
               </span>
               <span className="text-sm font-medium text-blue-600">
-              {currentQuestion >= 0 ? Math.round((currentQuestion / questions.length) * 100) : 0}% Complete
+                {Math.round(((currentQuestion + 1) / questions.length) * 100)}% Complete
               </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div
                 className="bg-blue-600 h-2 rounded-full transition-all duration-300"
                 style={{
-                  width: `${currentQuestion >= 0 ? (currentQuestion / questions.length) * 100 : 0}%`,
+                  width: `${((currentQuestion + 1) / questions.length) * 100}%`,
                 }}
               />
             </div>

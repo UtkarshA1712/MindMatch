@@ -226,7 +226,7 @@ export default function LandingPage({ onStart }: LandingPageProps) {
       {/* Footer */}
       <footer className="bg-[#f8f9fa] border-t py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-600">
-          <p>© 2024 BigFive. All rights reserved.</p>
+          
         </div>
       </footer>
     </div>

@@ -51,21 +51,25 @@ function App() {
     questions.forEach((question, index) => {
       const answer = answers[index];
       if (answer) {
+        console.log(answer);
         const score = answer * question.direction;
         results[question.factor] += score;
         counts[question.factor]++;
       }
     });
-  
+    console.log('Raw Scores:', results);
+    console.log('Question Counts:', counts);
     Object.keys(results).forEach((key) => {
       const factor = key as keyof typeof results;
       const calculatedScore = results[factor] / (counts[factor] * 5);
   
       // Calculate percentage, double it, and cap it at 100
-      results[factor] = Math.min(93, Math.max(0, Math.round(calculatedScore * 100 * 1.6)));
+      results[factor] = Math.min(93, Math.max(0, Math.round(calculatedScore * 100 * 1.75)));
+      console.log(`${factor} Final Percentage:`, results[factor]);
     });
   
     setScores(results);
+    console.log('Final Scores:', results);
   };
   
 

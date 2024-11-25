@@ -26,9 +26,9 @@ export const questions: Question[] = [
   },
   {
     id: 4,
-    text: "I keep in the background",
+    text: "I feel energized when interacting with others.",
     factor: "extraversion",
-    direction: -1
+    direction: 1
   },
   {
     id: 5,
@@ -50,9 +50,9 @@ export const questions: Question[] = [
   },
   {
     id: 8,
-    text: "I don't like to draw attention to myself",
+    text: "I prefer group activities over spending time alone.",
     factor: "extraversion",
-    direction: -1
+    direction: 1
   },
   {
     id: 9,

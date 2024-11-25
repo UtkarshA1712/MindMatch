@@ -99,25 +99,38 @@ function App() {
         </header>
 
         <div className="mb-8">
-          <div className="bg-white rounded-lg p-4 shadow-md">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-sm font-medium text-gray-600">
-                Question {currentQuestion + 1} of {questions.length}
-              </span>
-              <span className="text-sm font-medium text-blue-600">
-                {Math.round(((currentQuestion + 1) / questions.length) * 100)}% Complete
-              </span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div
-                className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                style={{
-                  width: `${((currentQuestion + 1) / questions.length) * 100}%`,
-                }}
-              />
-            </div>
-          </div>
-        </div>
+  <div className="bg-white rounded-lg p-4 shadow-md">
+    <div className="flex justify-between items-center mb-2">
+      <span className="text-sm font-medium text-gray-600">
+        {currentQuestion >= 0
+          ? `Question ${currentQuestion + 1} of ${questions.length}`
+          : `Not Started`}
+      </span>
+      <span className="text-sm font-medium text-blue-600">
+        {currentQuestion === -1
+          ? `0% Complete`
+          : currentQuestion === 0
+          ? `0% Complete`
+          : `${Math.round((currentQuestion / questions.length) * 100)}% Complete`}
+      </span>
+    </div>
+    <div className="w-full bg-gray-200 rounded-full h-2">
+      <div
+        className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+        style={{
+          width:
+            currentQuestion === -1
+              ? `0%`
+              : currentQuestion === 0
+              ? `0%`
+              : `${(currentQuestion / questions.length) * 100}%`,
+        }}
+      />
+    </div>
+  </div>
+</div>
+
+
 
         <TestQuestion
           question={questions[currentQuestion]}
